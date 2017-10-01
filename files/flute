@@ -1,0 +1,82 @@
+#!/bin/sh
+# chkconfig: 2345 20 80
+### BEGIN INIT INFO
+# Provides:          flute3
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Short-Description: Starts the MyDaemon service
+# Description:       This file is used to start the daemon
+#                    and should be placed in /etc/init.d
+### END INIT INFO
+
+NAME="flute3"
+DESC="Flute3 service"
+
+# The path to Jsvc
+EXEC="/usr/bin/jsvc"
+
+# The path to the folder containing flute.jar
+FILE_PATH="/opt/flute"
+
+# The path to the folder containing the java runtime
+JAVA_HOME="/usr/lib/jvm/java-8-oracle"
+
+# Our classpath including our jar file
+CLASS_PATH="/usr/share/java/commons-daemon-1.0.15.jar:$FILE_PATH/flute.jar"
+
+# The fully qualified name of the class to execute
+CLASS="ru.curs.flute.Main"
+
+#The user to run the daemon as
+USER="flute3"
+
+# The file that will contain our process identification number (pid) for other scripts/programs that need to access it.
+PID="/tmp/$NAME.pid"
+
+# System.out writes to this file...
+LOG_OUT="/var/log/flute/std.out"
+
+# System.err writes to this file...
+LOG_ERR="/var/log/flute/std.err"
+
+JAVA_OPTS="-Xss1280k" #SEGFAULT prevention, see https://community.ubnt.com/t5/UniFi-Routing-Switching/IMPORTANT-Debian-Ubuntu-users-MUST-READ-Updated-06-21/m-p/1968251#M48264
+
+jsvc_exec()
+{
+    cd $FILE_PATH
+    $EXEC -home $JAVA_HOME -cp $CLASS_PATH -user $USER -outfile $LOG_OUT -errfile $LOG_ERR -pidfile $PID $1 $JAVA_OPTS $CLASS
+}
+
+case "$1" in
+    start)
+        echo "Starting the $DESC..."
+        # Start the service
+        jsvc_exec
+	#if [ -f "$PID" ]; then
+		echo "The $DESC has started."
+	#fi
+    ;;
+    stop)
+        echo "Stopping the $DESC..."
+        # Stop the service
+        jsvc_exec "-stop"
+        echo "The $DESC has stopped."
+    ;;
+    restart)
+        if [ -f "$PID" ]; then
+            echo "Restarting the $DESC..."
+            # Stop the service
+            jsvc_exec "-stop"
+            # Start the service
+            jsvc_exec
+            echo "The $DESC has restarted."
+        else
+            echo "Daemon not running, no action taken"
+            exit 1
+        fi
+            ;;
+    *)
+    echo "Usage: /etc/init.d/$NAME {start|stop|restart}" >&2
+    exit 3
+    ;;
+esac

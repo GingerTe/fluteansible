@@ -1,0 +1,88 @@
+- name: install needed packages
+  apt:
+    update_cache: yes
+    name: [jsvc, unzip] #sysv-rc-conf
+
+- name: install jython
+  shell: >
+    wget -O installer.jar http://search.maven.org/remotecontent?filepath=org/python/jython-installer/2.7.1b3/jython-installer-2.7.1b3.jar 
+    && java -jar installer.jar -s -d /opt/jython 
+    && rm installer.jar
+  args:
+    creates: /opt/jython
+  register: jython_install
+    
+- name: create symlink to jython executable
+  file:
+    dest: "{{ item }}"
+    src: /opt/jython/bin/jython
+    state: link
+  with_items:
+    - /usr/local/bin/jython
+    - /usr/local/share/jython
+    - /usr/bin/jython
+  when: jython_install.changed
+
+- name: flute3 group
+  group:
+    name: flute3
+    state: present
+    
+- name: flute3 user
+  user:
+    name: flute3
+    group: flute3
+    shell: /bin/false
+    
+- name: mkdir for flute
+  file: 
+    dest: "{{ item }}"
+    state: directory 
+    mode: 0775
+    owner: flute3
+  with_items:
+      - /opt/flute
+      - /opt/flute/lib
+      - /var/opt/flute/score
+      - /var/log/flute
+      
+- name: download flute jar
+  get_url:
+    url: "{{ flute_url }}"
+    dest: /opt/flute/flute-{{ flute_version }}.jar
+    mode: "0644"
+    owner: flute3
+  register: flute_download
+
+- name: create symlink
+  file:
+    dest: /opt/flute/flute.jar
+    src: /opt/flute/flute-{{ flute_version }}.jar
+    state: link
+  when: flute_download.changed
+  
+- name: get and unarchive flute archive
+  unarchive:
+    src: "{{ flute_lib_url }}"
+    dest: /opt/flute/lib
+    remote_src: True
+    group: flute3
+    creates: /opt/flute/lib/*.jar
+
+- name: copy flute service config file
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dst }}"
+    mode: "{{ item.mode }}"
+  with_items:
+    - src: files/flute
+      dst: /etc/init.d
+      mode: "0755"
+
+- name: daemon_reload and stop the service for a while
+  systemd:
+    state: stopped
+    daemon_reload: yes
+    name: flute
+#- name: Register Flute service
+#  command: sysv-rc-conf flute on

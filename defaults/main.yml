@@ -1,2 +1,3 @@
----
-# defaults file for flute
+flute_url: http://jenkins.curs.ru:1111/job/Flute/126/artifact/target/flute-6.0.3217_build126.jar
+flute_lib_url: http://jenkins.curs.ru:1111/job/Flute/126/artifact/target/Libraries-6.0.3217_build126.zip
+flute_version: flute-6.0.3217

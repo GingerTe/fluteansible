@@ -1,3 +1,3 @@
-flute_url: http://jenkins.curs.ru:1111/job/Flute/126/artifact/target/flute-6.0.3217_build126.jar
-flute_lib_url: http://jenkins.curs.ru:1111/job/Flute/126/artifact/target/Libraries-6.0.3217_build126.zip
-flute_version: flute-6.0.3217
+flute_url: http://jenkins.curs.ru:1111/job/Flute/127/artifact/target/flute-6.0.3218_build127.jar
+flute_lib_url: http://jenkins.curs.ru:1111/job/Flute/127/artifact/target/Libraries-6.0.3218_build127.zip
+flute_version: flute-6.0.3218

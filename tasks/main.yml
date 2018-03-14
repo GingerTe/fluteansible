@@ -1,17 +1,20 @@
+---
 - name: install needed packages
   apt:
     update_cache: yes
     name: [jsvc, unzip] #sysv-rc-conf
 
+- name: download jython installer
+  get_url:
+    url: "{{ jython_url }}"
+    dest: /opt/jython-installer.jar
+
 - name: install jython
-  shell: >
-    wget -O installer.jar {{ jython_url }} 
-    && java -jar installer.jar -s -d /opt/jython 
-    && rm installer.jar
+  command: java -jar jython-installer.jar -s -d /opt/jython
   args:
+    chdir: /opt
     creates: /opt/jython
-  register: jython_install
-    
+
 - name: create symlink to jython executable
   file:
     dest: "{{ item }}"
@@ -21,46 +24,43 @@
     - /usr/local/bin/jython
     - /usr/local/share/jython
     - /usr/bin/jython
-  when: jython_install.changed
 
 - name: app users group
   group:
     name: "{{ flute_group }}"
     state: present
-    
+
 - name: flute3 user
   user:
     name: flute3
     group: "{{ flute_group }}"
     shell: /bin/false
-    
+
 - name: mkdir for flute
-  file: 
+  file:
     dest: "{{ item }}"
-    state: directory 
+    state: directory
     mode: 0775
     owner: flute3
   with_items:
-      - "{{ flute_dir }}"
-      - "{{ flute_dir }}/lib"
-      - /var/opt/flute/score
-      - /var/log/flute
-      
+    - "{{ flute_dir }}"
+    - "{{ flute_dir }}/lib"
+    - /var/opt/flute/score
+    - /var/log/flute
+
 - name: download flute jar
   get_url:
     url: "{{ flute_url }}"
     dest: "{{ flute_dir }}/flute-{{ flute_version }}.jar"
     mode: "0644"
     owner: flute3
-  register: flute_download
 
 - name: create symlink
   file:
     dest: "{{ flute_dir }}/flute.jar"
     src: "{{ flute_dir }}/flute-{{ flute_version }}.jar"
     state: link
-  when: flute_download.changed
-  
+
 - name: get and unarchive flute archive
   unarchive:
     src: "{{ flute_lib_url }}"
@@ -72,13 +72,13 @@
 - name: copy flute service config file
   template:
     src: "templates/flute.j2"
-    dest: "/etc/init.d"
+    dest: "/etc/init.d/flute"
     mode: "0755"
 
-- name: daemon_reload and stop the service for a while
-  systemd:
-    state: stopped
-    daemon_reload: yes
-    name: flute
-#- name: Register Flute service
-#  command: sysv-rc-conf flute on
+# - name: daemon_reload and stop the service for a while
+#  service:
+#    state: stopped
+#    name: flute
+
+# - name: Register Flute service
+#   command: sysv-rc-conf flute on

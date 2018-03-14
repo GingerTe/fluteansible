@@ -75,7 +75,9 @@
     dest: "/etc/init.d/flute"
     mode: "0755"
 
-# - name: daemon_reload and stop the service for a while
+- name: daemon_reload
+  command: systemctl daemon-reload
+
 #  service:
 #    state: stopped
 #    name: flute

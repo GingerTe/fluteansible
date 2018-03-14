@@ -1,3 +1,12 @@
-flute_url: http://jenkins.curs.ru:1111/job/Flute/127/artifact/target/flute-6.0.3218_build127.jar
-flute_lib_url: http://jenkins.curs.ru:1111/job/Flute/127/artifact/target/Libraries-6.0.3218_build127.zip
-flute_version: flute-6.0.3218
+flute_build: "77" 
+flute_repo: https://artifactory.corchestra.ru/artifactory/corchestra-dev 
+flute_url: "{{ flute_repo }}/{{ flute_build }}/flute-6.1-SNAPSHOT.jar"
+flute_lib_url: "{{ flute_repo }}/{{ flute_build }}/flute-6.1-SNAPSHOT.zip"
+flute_version: 6.1b{{ flute_build }}
+
+#where to download Jython from
+jython_url: "http://search.maven.org/remotecontent?filepath=org/python/jython-installer/2.7.1b3/jython-installer-2.7.1b3.jar"
+#role for flute3 user
+flute_group: flute
+#directory to install flute binaries
+flute_dir: /opt/flute

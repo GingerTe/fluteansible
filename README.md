@@ -11,10 +11,9 @@ Java 8 (Oracle)
 Role Variables
 --------------
 
-* flute_url: url to flute.jar
-* flute_lib_url: url to archive with libraries needed for flute
-* flute_version: version of flute 
-
+* flute_build: flute build number
+* flute_group: the group for flute service user (default valute is flute)
+* flute_dir: where to intall flute (default value is /opt/flute)
 
 
 Example Playbook
@@ -33,9 +32,9 @@ Including an example of how to use your role (for instance, with variables passe
 License
 -------
 
-GPLv3
+MIT
 
 Author Information
 ------------------
 
-https://corchestra.ru
+https://corchestra.ru/en

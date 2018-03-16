@@ -2,6 +2,7 @@
 - name: Converge
   hosts: all
   roles:
+    - role: ansiblebit.oracle-java
     - role: fluteansible
   tasks:
     - name: mkdir for score

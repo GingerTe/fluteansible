@@ -6,9 +6,15 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('all')
 
 
-def test_hosts_file(host):
-    f = host.file('/etc/hosts')
+def test_executable_file(host):
+    flute = host.file('/opt/flute/flute.jar')
+    assert flute.exists
 
-    assert f.exists
-    assert f.user == 'root'
-    assert f.group == 'root'
+
+def test_log_files(host):
+    stdout = host.file('/var/log/flute/std.out')
+    stderr = host.file('/var/log/flute/std.err')
+    assert stdout.exists
+    assert stderr.exists
+    assert stderr.contains('Flute started')
+    assert stdout.contains('Flute started. 0 taskSources are being processed')

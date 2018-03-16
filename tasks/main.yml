@@ -2,7 +2,7 @@
 - name: install needed packages
   apt:
     update_cache: yes
-    name: [jsvc, unzip] #sysv-rc-conf
+    name: [jsvc, unzip]
 
 - name: download jython installer
   get_url:
@@ -75,12 +75,7 @@
     dest: "/etc/init.d/flute"
     mode: "0755"
 
-- name: daemon_reload
-  command: systemctl daemon-reload
-
-#  service:
-#    state: stopped
-#    name: flute
-
-# - name: Register Flute service
-#   command: sysv-rc-conf flute on
+- name: daemon_reload and stop the service for a while
+  systemd:
+    daemon_reload: yes
+    name: flute

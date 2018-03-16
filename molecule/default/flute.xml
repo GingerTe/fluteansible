@@ -7,6 +7,6 @@
     <dbpassword></dbpassword>
     <neverstop>false</neverstop>
     <retrywait>50000</retrywait>
-    <scorepath>/var/opt/score</scorepath>
+    <scorepath>/var/opt/flute/score</scorepath>
     <pylibpath>/opt/jython/Lib:/opt/jython/Lib/site-packages</pylibpath>
 </config>

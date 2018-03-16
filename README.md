@@ -1,6 +1,8 @@
 Flute
 =========
 
+[![Build Status](https://ci.corchestra.ru/buildStatus/icon?job=fluteansible/master)](https://ci.corchestra.ru/job/fluteansible/job/master/)
+
 Installation of Course Orchestra Flute (https://corchestra.ru/wiki/index.php?title=Flute)
 
 Requirements

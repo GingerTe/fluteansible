@@ -21,15 +21,13 @@ Role Variables
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
     - hosts: servers
       vars:
          oracle_java_version: 8
          oracle_java_version_update: 131
       roles:
          - role: ansiblebit.oracle-java
-         - role: flute
+         - role: CourseOrchestra.flute
 
 License
 -------

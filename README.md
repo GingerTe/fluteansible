@@ -2,8 +2,9 @@ Flute
 =========
 
 [![Build Status](https://ci.corchestra.ru/buildStatus/icon?job=fluteansible/master)](https://ci.corchestra.ru/job/fluteansible/job/master/)
+[![Ansible Galaxy](https://img.shields.io/badge/galaxy-CourseOrchestra.flute-blue.svg)](https://galaxy.ansible.com/CourseOrchestra/flute/)
 
-Installation of Course Orchestra Flute (https://corchestra.ru/wiki/index.php?title=Flute)
+Installation of [Course Orchestra Flute](https://github.com/CourseOrchestra/flute) (https://corchestra.ru/wiki/index.php?title=Flute)
 
 Requirements
 ------------

@@ -17,4 +17,4 @@ install:
   - pip install molecule
 
 script:
-  - molecule test
+  - molecule --debug test

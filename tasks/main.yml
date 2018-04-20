@@ -76,7 +76,6 @@
     mode: "0644"
 
 - name: Ensure flute runs on startup
-  command: systemctl enable flute
-
-- name: restart flute
-  command: systemctl restart flute
+  systemd:
+    name: flute
+    enabled: yes

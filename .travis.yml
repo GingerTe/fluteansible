@@ -8,15 +8,14 @@ services:
   - docker
 
 before_install:
-  # Make sure everything's up to date.
   - sudo apt-get update -qq
+  - sudo apt-get install -o Dpkg::Options::="--force-confold" --force-yes -y docker-engine
 
 install:
-  - pip install --upgrade pytest
-  # Install Ansible.
+  # - pip install --upgrade pytest
   - pip install ansible
   - pip install molecule
   - pip install docker-py
 
 script:
-  - molecule --debug test
+  - molecule test

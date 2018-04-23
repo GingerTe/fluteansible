@@ -7,6 +7,7 @@ Type=forking
 PIDFile=/tmp/flute.pid
 User={{ flute_user }}
 Environment=USER={{ flute_user }}
+TimeoutSec=1min
 StartLimitBurst=0
 StandardOutput=journal
 RemainAfterExit=yes

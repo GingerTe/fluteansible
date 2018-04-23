@@ -32,7 +32,7 @@
 
 - name: flute3 user
   user:
-    name: flute3
+    name: "{{ flute_user }}"
     group: "{{ flute_group }}"
     shell: /bin/false
 
@@ -41,7 +41,7 @@
     dest: "{{ item }}"
     state: directory
     mode: 0775
-    owner: flute3
+    owner: "{{ flute_user }}"
   with_items:
     - "{{ flute_dir }}"
     - "{{ flute_dir }}/lib"
@@ -53,7 +53,7 @@
     url: "{{ flute_url }}"
     dest: "{{ flute_dir }}/flute-{{ flute_version }}.jar"
     mode: "0644"
-    owner: flute3
+    owner: "{{ flute_user }}"
 
 - name: create symlink
   file:
@@ -72,10 +72,10 @@
 - name: copy flute service config file
   template:
     src: "templates/flute.j2"
-    dest: "/etc/init.d/flute"
-    mode: "0755"
+    dest: "/etc/systemd/system/flute.service"
+    mode: "0644"
 
-- name: daemon_reload and stop the service for a while
+- name: Ensure flute runs on startup
   systemd:
-    daemon_reload: yes
     name: flute
+    enabled: yes

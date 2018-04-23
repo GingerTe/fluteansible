@@ -20,6 +20,8 @@ Role Variables
 * flute_build: flute build number
 * flute_group: the group for flute service user (default valute is flute)
 * flute_dir: where to intall flute (default value is /opt/flute)
+* flute_log_dir directory for logs output (default is /var/log/flute)
+* flute_user  user for flute service (default is flute3)
 
 
 Example Playbook

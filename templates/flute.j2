@@ -8,23 +8,11 @@ PIDFile=/tmp/flute.pid
 User={{ flute_user }}
 Environment=USER={{ flute_user }}
 StartLimitBurst=0
-StandardOutput=tty
+StandardOutput=journal
 RemainAfterExit=yes
-ExecStart=/usr/bin/jsvc -home /usr/lib/jvm/java-8-oracle \
-        -user {{ flute_user }} -cp /usr/share/java/commons-daemon.jar:{{ flute_dir }}/flute.jar \
-        -pidfile /tmp/flute.pid \
-        -procname flute \
-        -outfile {{ flute_log_dir }}/std.out \
-        -errfile {{ flute_log_dir }}/std.err \
-        -Xmx1024M ru.curs.flute.Main start
-
-ExecStop=/usr/bin/jsvc -home /usr/lib/jvm/java-8-oracle \
-        -cp /usr/share/java/commons-daemon.jar:{{ flute_dir }}/flute.jar \
-        -pidfile /tmp/flute.pid \
-        -procname flute \
-        -outfile {{ flute_log_dir }}/std.out \
-        -errfile {{ flute_log_dir }}/std.err \
-        -Xmx1024M ru.curs.flute.Main stop
+ExecStart=/usr/bin/jsvc -home /usr/lib/jvm/java-8-oracle -user {{ flute_user }} -cp /usr/share/java/commons-daemon.jar:{{ flute_dir }}/flute.jar -pidfile /tmp/flute.pid -procname flute -outfile {{ flute_log_dir }}/std.out -errfile {{ flute_log_dir }}/std.err -Xmx1024M ru.curs.flute.Main start
+ExecStop=/usr/bin/jsvc -home /usr/lib/jvm/java-8-oracle -cp /usr/share/java/commons-daemon.jar:{{ flute_dir }}/flute.jar -pidfile /tmp/flute.pid -procname flute -outfile {{ flute_log_dir }}/std.out -errfile {{ flute_log_dir }}/std.err -Xmx1024M ru.curs.flute.Main stop
 
 [Install]
 WantedBy=multi-user.target
+

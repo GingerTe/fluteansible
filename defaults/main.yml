@@ -13,3 +13,4 @@ flute_group: flute
 #directory to install flute binaries
 flute_dir: /opt/flute
 flute_log_dir: /var/log/flute
+java_home: /usr/lib/jvm/java-8-oracle

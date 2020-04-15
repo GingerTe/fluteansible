@@ -13,4 +13,5 @@ flute_group: flute
 # directory to install flute binaries
 flute_dir: /opt/flute
 flute_log_dir: /var/log/flute
+flute_java_memory: 1024M
 java_home: /usr/lib/jvm/java-8-oracle
